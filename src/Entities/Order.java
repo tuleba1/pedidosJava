@@ -2,11 +2,14 @@ package Entities;
 
 import Entities.enums.OrderStatus;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 public class Order {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private Date momento;
     private OrderStatus status;
     private Cliente cliente;
@@ -49,6 +52,32 @@ public class Order {
     }
     public void removeItem(OrderItem item){
         itens.remove(item);
+    }
+    public double total(){
+        double soma = 0.0;
+        for(OrderItem it : itens){
+            soma += it.subTotal();
+        }
+        return soma;
+    }
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Order Moment:");
+        sb.append(sdf.format(momento) + "\n");
+        sb.append("Order Status: ");
+        sb.append(status + "\n");
+        sb.append("Client: ");
+        sb.append(cliente + "\n");
+        sb.append("Order items\n");
+        for (OrderItem item : itens){
+            sb.append(item + "\n");
+        }
+        sb.append("Total price: $");
+        sb.append(String.format("%.2f", total()));
+        return sb.toString();
+
+
     }
 
 }
